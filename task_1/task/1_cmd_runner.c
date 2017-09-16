@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
     {
       case 0:
         execvp(adr, arg);
+        printf("Exec failed (not found)\n");
         return 0;
       default:
         if(arg[i + 1] == NULL)
@@ -58,7 +59,7 @@ int main(int argc, char* argv[])
         c = getchar();
         if(c != '\n')
         {
-          for(j = 0; c != '\n'; ++j)
+          while(c != '\n')
           {
             if(c == ' ' && ch)
             {
@@ -71,9 +72,11 @@ int main(int argc, char* argv[])
             {
               ch = 1;
               *(arg[i] + j) = c;
+              ++j;
             }
             c = getchar();
           }
+          *(arg[i] + j) = '\0';
           free(arg[i + 1]);
           arg[i + 1] = NULL;
         }
