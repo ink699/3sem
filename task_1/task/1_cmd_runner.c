@@ -26,12 +26,14 @@ int main(int argc, char* argv[])
   int ret_code = 0;
   int args_num = 0;
   char ret = ' ';
-  char adr[100];
-  char name[100];
-  char* arg[100];
-  for(i = 0; i < 100; ++i)
+  char adr[1000];
+  char* name;
+  char** arg;
+  name = (char*)malloc(2097152*sizeof(char));
+  arg = (char**)malloc(2097152*sizeof(char*));
+  for(i = 0; i < 2097152; ++i)
   {
-    arg[i] = (char*)malloc(100*sizeof(char));
+    arg[i] = (char*)malloc(1*sizeof(char));
   }
   char t;
   while(tolower(ret) != 'n')
@@ -44,9 +46,9 @@ int main(int argc, char* argv[])
         return 0;
       default:
         if(arg[i + 1] == NULL)
-          arg[i + 1] = (char*)malloc(100*sizeof(char));
+            arg[i + 1] = (char*)malloc(1*sizeof(char));
         if(arg[i] == NULL)
-            arg[i] = (char*)malloc(100*sizeof(char));
+            arg[i] = (char*)malloc(1*sizeof(char));
         i = 0;
         j = 0;
         printf("Enter address, enter quit for exit\n");
@@ -54,7 +56,7 @@ int main(int argc, char* argv[])
         if(strcmp(adr, "quit") == 0)
           return 0;
         args_num = argc;
-        printf("Enter arguments without line breaks\n");
+        printf("Enter arguments without line breaks (including name)\n");
         c = getchar();
         c = getchar();
         if(c != '\n')
@@ -63,6 +65,7 @@ int main(int argc, char* argv[])
           {
             if(c == ' ' && ch)
             {
+              arg[i] = (char*)realloc(arg[i], (j+1)*sizeof(char));
               *(arg[i] + j) = '\0';
               ++i;
               j = 0;
@@ -70,12 +73,14 @@ int main(int argc, char* argv[])
             }
             if(c != ' ')
             {
+              arg[i] = (char*)realloc(arg[i], (j+1)*sizeof(char));
               ch = 1;
               *(arg[i] + j) = c;
               ++j;
             }
             c = getchar();
           }
+          arg[i] = (char*)realloc(arg[i], (j+1)*sizeof(char));
           *(arg[i] + j) = '\0';
           free(arg[i + 1]);
           arg[i + 1] = NULL;
