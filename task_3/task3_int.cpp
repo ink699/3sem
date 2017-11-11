@@ -10,14 +10,13 @@
 using namespace std;
 
 double res = 0;
-int num_threads = 0, dens = 0;
+int num_threads = 0, dens = 0, num_points = 0;
 
 pair <double, double> get_ran_coord()
 {
   pair <double, double> res;
-  srand(clock());
-  res.first = rand() * 1.0 / RAND_MAX;
-  res.second = rand() * 3.0 / RAND_MAX;
+  res.first = rand_r(*clock()) * 1.0 / RAND_MAX;
+  res.second = rand_r(*clock()) * 3.0 / RAND_MAX;
   return res;
 }
 
@@ -57,7 +56,8 @@ int main()
   long long clocks = 0;
   pair <double, double>* shared;
   sembuf buf;
-  cin >> num_threads >> dens;
+  cin >> num_threads >> num_points;
+  dens = num_points / num_threads;
   pthread_t* tid = new pthread_t[num_threads];
   ch = pthread_mutex_init(&mutex, NULL);
 
