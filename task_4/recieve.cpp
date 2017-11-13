@@ -42,7 +42,6 @@ int main()
       msgctl(id, IPC_RMID, NULL);
       exit(-1);
     }
-    cout << len << endl;
     if(mybuf.type == last)
     {
       out << endl;
