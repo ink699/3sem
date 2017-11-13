@@ -25,7 +25,7 @@ int main()
   struct mymsgbuf
   {
     long type;
-    char text [1000];
+    char text [4096];
   } mybuf;
   if((key = ftok(path, 0)) < 0)
   {
@@ -37,7 +37,7 @@ int main()
   }
   for(;;)
   {
-    if((len = msgrcv(id, &mybuf, 1000, 0, 0)) < 0)
+    if((len = msgrcv(id, &mybuf, 4096, 0, 0)) < 0)
     {
       msgctl(id, IPC_RMID, NULL);
       exit(-1);

@@ -25,7 +25,7 @@ int main()
   struct mymsgbuf
   {
     long type;
-    char text [1000];
+    char text [4096];
   } mybuf;
   if((key = ftok(path, 0)) < 0)
   {
@@ -40,9 +40,9 @@ int main()
     mybuf.type = send;
     (mybuf.text)[counter] = c;
     ++counter;
-    if(counter == 1000)
+    if(counter == 4096)
     {
-      if (msgsnd(id, &mybuf, 1000, 0) < 0)
+      if (msgsnd(id, &mybuf, 4096, 0) < 0)
       {
         cout << "probsnd";
         msgctl(id, IPC_RMID, NULL);
