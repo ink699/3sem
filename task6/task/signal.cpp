@@ -110,15 +110,20 @@ void term_handl(int nsig)
   exit(0);
 }
 
+struct sigaction act_usr1, act_usr2, act_term, act_chld;
+
 int main()
 {
-  struct sigaction act_usr1, act_usr2, act_term, act_chld;
   act_usr1.sa_handler = usr1_handl;
   act_usr2.sa_handler = usr2_handl;
   act_term.sa_handler = term_handl;
   act_chld.sa_handler = chld_handl;
   sigaction(SIGUSR1, &act_usr1, NULL);
-  sigaction(SIGUSR2, &act_usr2, NULL);
+  if(sigaction(SIGUSR2, &act_usr2, NULL) == -1)
+  {
+    cout << "Error" << endl;
+    exit(0);
+  }
   sigaction(SIGCHLD, &act_chld, NULL);
   sigaction(SIGTERM, &act_term, NULL);
 
